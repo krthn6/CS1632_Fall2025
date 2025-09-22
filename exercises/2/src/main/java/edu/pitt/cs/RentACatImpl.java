@@ -17,9 +17,22 @@ public class RentACatImpl implements RentACat {
 	 * @return true if cat exists and was rented out, false otherwise
 	 */
 
+        @Override
 	public boolean returnCat(int id) {
 		// TODO: Fill in
-		return false;
+		Cat c = getCat(id);
+    if (c != null) {
+        if (c.getRented()) {
+            c.returnCat();
+            System.out.println("Welcome back, " + c.getName() + "!");
+            return true;
+        } else {
+            System.out.println(c.getName() + " is already here!");
+            return false;
+        }
+    }
+    System.out.println("Invalid cat ID.");
+    return false;
 	}
 
 	/**
@@ -32,9 +45,22 @@ public class RentACatImpl implements RentACat {
 	 * @return true if cat exists and was not rented out, false otherwise
 	 */
 
+        @Override
 	public boolean rentCat(int id) {
 		// TODO: Fill in
-		return false;
+		Cat c = getCat(id);
+		if (c != null) {
+			if (!c.getRented()) {
+				c.rentCat();
+				System.out.println(c.getName() + " has been rented.");
+				return true;
+			} else {
+				System.out.println("Sorry, " + c.getName() + " is not here!");
+				return false;
+			}
+		}
+		System.out.println("Invalid cat ID.");
+		return false; 
 	}
 
 	/**
@@ -46,8 +72,14 @@ public class RentACatImpl implements RentACat {
 	 * @return true if cat exists, false otherwise
 	 */
 
+        @Override
 	public boolean renameCat(int id, String name) {
 		// TODO: Fill in
+		Cat c = getCat(id);
+        if (c != null) {
+            c.renameCat(name);
+            return true;
+        }
 		return false;
 	}
 
@@ -61,9 +93,17 @@ public class RentACatImpl implements RentACat {
 	 * @return "\n"-delimited list of rentable cats
 	 */
 
+        @Override
 	public String listCats() {
 		// TODO: Fill in
-		return "WRITE CODE FOR THIS";
+		if (cats.isEmpty()) return "";
+        StringBuilder sb = new StringBuilder();
+        for (Cat c : cats) {
+            if (!c.getRented()) {
+                sb.append(c.toString()).append("\n");
+            }
+        }
+        return sb.toString();
 	}
 
 	/**
