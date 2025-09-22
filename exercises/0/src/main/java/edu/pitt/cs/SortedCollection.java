@@ -1,10 +1,16 @@
 package edu.pitt.cs;
 
 //TODO: Import libraries as needed
+import java.util.ArrayList;
 import java.util.NoSuchElementException;
+
 
 public class SortedCollection {
 	// TODO: Add member variables or methods as needed
+	private ArrayList<Integer> lst;
+	public SortedCollection(){
+		lst = new ArrayList<>();
+	}
 
 	/**
 	 * Adds the number n to the collection.
@@ -13,7 +19,11 @@ public class SortedCollection {
 	 * @return always returns true
 	 */
 	public boolean add(int n) {
-		// TODO: Implement
+		int idx = 0;
+		while(idx < lst.size() && lst.get(idx) <n){
+			idx ++;
+		}
+		lst.add(idx,n);
 		return true;
 	}
 
@@ -24,8 +34,10 @@ public class SortedCollection {
 	 * @return the smallest number in the collection
 	 */
 	public int remove() throws NoSuchElementException {
-		// TODO: Implement
-		return 0;
+		if (lst.isEmpty()) {
+            throw new NoSuchElementException();
+        }
+		return lst.remove(0);
 	}
 
 	/**
@@ -47,15 +59,30 @@ public class SortedCollection {
 			showUsage();
 			return;
 		}
-		
+	
+        for (String arg : args) {
+            try {
+                int num = Integer.parseInt(arg);
+                collection.add(num);
+            } catch (NumberFormatException e) {
+                showUsage();
+                return;
+            }
+        }
+
+        System.out.print("sorted: ");
+        while (true) {
+            try {
+                int num = collection.remove();
+                System.out.print(num + " ");
+            } catch (NoSuchElementException e) {
+                break;
+            }
+        }
+        System.out.println();
+    }
+}
 		// TODO: add numbers in commandline arguments to collection using the add(int) method.
 		// If any commandline argument is not a number, call showUsage() and return.
 		
-		System.out.print("sorted: ");
-		for (int i = 0; i < args.length; i++) {
-			int num = collection.remove();
-			System.out.print(num + " ");
-		}
-		System.out.println();
-	}
-}
+	
